@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grievance Portal for My Love</title>
+  <title>Siya's Grievance Portal 💖</title>
   <style>
     body {
       background-color: #ffe6f0;
@@ -42,13 +42,22 @@
     button:hover {
       background-color: #e65c87;
     }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Grievance Portal 💖</h2>
-    <p>Hey love, what's bothering you? I'm listening 💌</p>
-    <form action="https://formspree.io/f/mnnvvvjq" method="POST">
+  <div class="container" id="loginContainer">
+    <h2>Welcome, Siya 💖</h2>
+    <p>Enter your secret password to continue</p>
+    <input type="password" id="passwordInput" placeholder="Password" required />
+    <button onclick="checkPassword()">Login 🔐</button>
+    <p id="loginError" style="color: red; display: none;">Wrong password, try again sweetheart 😥</p>
+  </div>  <div class="container hidden" id="formContainer">
+    <h2>Hi Siya 💌</h2>
+    <p>What's on your mind? I'm listening with all my heart.</p>
+    <form id="grievanceForm" action="https://formspree.io/f/mnnvvvjq" method="POST">
       <input type="text" name="title" placeholder="Title of your grievance" required />
       <textarea name="message" placeholder="What's bothering you?" rows="4" required></textarea>
       <select name="mood" required>
@@ -60,6 +69,51 @@
       </select>
       <button type="submit">Submit 💌</button>
     </form>
-  </div>
-</body>
+  </div>  <div class="container hidden" id="thankYouContainer">
+    <h2>Grievance Sent 💖</h2>
+    <p>Thank you Siya for sharing. Your message has been sent to Nitesh. He loves you more than anything and will always try to make you smile again. 🥺💗</p>
+    <button onclick="submitAnother()">Submit Another Complaint 💌</button>
+  </div>  <script>
+    function checkPassword() {
+      const input = document.getElementById("passwordInput").value;
+      const correctPassword = "siya123"; // you can change this
+      if (input === correctPassword) {
+        document.getElementById("loginContainer").style.display = "none";
+        document.getElementById("formContainer").classList.remove("hidden");
+      } else {
+        document.getElementById("loginError").style.display = "block";
+      }
+    }
+
+    const form = document.getElementById("grievanceForm");
+    const formContainer = document.getElementById("formContainer");
+    const thankYouContainer = document.getElementById("thankYouContainer");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json"
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            formContainer.classList.add("hidden");
+            thankYouContainer.classList.remove("hidden");
+            form.reset();
+          } else {
+            alert("Oops! There was a problem. Try again.");
+          }
+        })
+        .catch(() => alert("Something went wrong."));
+    });
+
+    function submitAnother() {
+      thankYouContainer.classList.add("hidden");
+      formContainer.classList.remove("hidden");
+    }
+  </script></body>
 </html>
