@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,30 +8,55 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #fff6f9;
+      background: linear-gradient(135deg, #ffeaf0, #fff6f9);
       text-align: center;
       padding: 2rem;
+      animation: fadeIn 2s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     .hidden { display: none; }
-    .form-box, .password-box { max-width: 400px; margin: auto; background: #ffeef2; padding: 2rem; border-radius: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    input, select, textarea { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 10px; border: 1px solid #ccc; }
-    button { padding: 0.8rem 1.5rem; background-color: #ff80aa; color: white; border: none; border-radius: 10px; cursor: pointer; }
+    .form-box, .password-box {
+      max-width: 450px;
+      margin: auto;
+      background: #fff0f5;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #ff80aa;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
     button:hover { background-color: #ff4f8b; }
   </style>
 </head>
 <body>
   <div class="password-box" id="passwordBox">
-    <h2>💖 A little secret corner 💖</h2>
-    <p>Hint: the day we reunited 💑</p>
+    <h2>🔐 Our Little Secret</h2>
+    <p>Hint: letters of our initials plus the day we united you bastard 💘</p>
     <input type="password" id="password" placeholder="Enter the magic word">
     <button onclick="checkPassword()">Unlock</button>
   </div>
 
   <div class="form-box hidden" id="formBox">
     <h2>Hey Siya 🌸</h2>
-    <p>Vent your heart out here — I'm always listening 💌</p>
+    <p>Tell me everything, love. Your words mean the world to me 💗</p>
     <form id="ventForm" action="https://formspree.io/f/mnnvvvjq" method="POST">
-      <label>Mood:</label>
+      <label for="mood">Your Mood:</label>
       <select name="mood" required>
         <option value="Happy 😊">Happy 😊</option>
         <option value="Sad 😔">Sad 😔</option>
@@ -38,10 +64,10 @@
         <option value="Angry 😡">Angry 😡</option>
         <option value="In Love 😘">In Love 😘</option>
       </select>
-      <label>Message:</label>
-      <textarea name="message" rows="4" required placeholder="Tell me everything..."></textarea>
+      <label for="message">Message:</label>
+      <textarea name="message" rows="4" required placeholder="Pour your heart out... 💌"></textarea>
       <input type="hidden" name="redirect" value="thankyou.html">
-      <button type="submit">Send 💌</button>
+      <button type="submit">Send 💕</button>
     </form>
   </div>
 
@@ -50,7 +76,7 @@
     const formBox = document.getElementById('formBox');
 
     function checkPassword() {
-      const pw = document.getElementById('password').value;
+      const pw = document.getElementById('password').value.trim();
       if (pw === 'sn0908') {
         passwordBox.classList.add('hidden');
         formBox.classList.remove('hidden');
@@ -59,7 +85,6 @@
       }
     }
 
-    // Google Sheet submission
     document.getElementById("ventForm").addEventListener("submit", function(e) {
       const mood = this.mood.value;
       const message = this.message.value;
