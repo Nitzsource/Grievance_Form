@@ -1,119 +1,158 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Siya's Grievance Portal 💖</title>
+  <title>Siya's Safe Space 💖</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <style>
     body {
-      background-color: #ffe6f0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .container {
-      background: #ffccdd;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 400px;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe0e9, #fff5f8);
+      color: #333;
+      padding: 20px;
       text-align: center;
     }
-    h2 {
-      color: #cc3366;
-    }
-    input, textarea, select, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-    }
-    button {
-      background-color: #ff6699;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #e65c87;
-    }
+
     .hidden {
       display: none;
     }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+    }
+
+    input[type="password"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff85c1;
+    }
+
+    .mood-option {
+      margin: 5px 0;
+      text-align: left;
+    }
   </style>
 </head>
+
 <body>
-  <div class="container" id="loginContainer">
-    <h2>Welcome, Siya 💖</h2>
-    <p>Enter your secret password to continue</p>
-    <input type="password" id="passwordInput" placeholder="Password" required />
-    <button onclick="checkPassword()">Login 🔐</button>
-    <p id="loginError" style="color: red; display: none;">Wrong password, try again sweetheart 😥</p>
-  </div>  <div class="container hidden" id="formContainer">
-    <h2>Hi Siya 💌</h2>
-    <p>What's on your mind? I'm listening with all my heart.</p>
-    <form id="grievanceForm" action="https://formspree.io/f/mnnvvvjq" method="POST">
-      <input type="text" name="title" placeholder="Title of your grievance" required />
-      <textarea name="message" placeholder="What's bothering you?" rows="4" required></textarea>
-      <select name="mood" required>
-        <option value="">Your mood?</option>
-        <option>😢 Sad</option>
-        <option>😡 Angry</option>
-        <option>🥺 Disappointed</option>
-        <option>😊 Just Venting</option>
-      </select>
+  <div id="passwordScreen" class="container">
+    <h2>Siya's Secret Safe Space 🔐</h2>
+    <p>Enter your secret password to continue 💗</p>
+    <input type="password" id="passwordInput" placeholder="Password here..." />
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="errorMessage" style="color: red; margin-top: 10px;"></p>
+    <p style="color: #777; margin-top: 5px;">
+      Hint: First letters of us + the date love restarted 💫
+    </p>
+  </div>
+
+  <div id="formScreen" class="container hidden">
+    <h2>Hey Siya 🩷</h2>
+    <p>I’m listening with all my heart. What’s going on?</p>
+
+    <form id="grievanceForm" onsubmit="handleSubmit(event)">
+      <div class="mood-option">
+        <label><input type="radio" name="mood" value="Sad" required /> Sad</label><br />
+        <label><input type="radio" name="mood" value="Angry" /> Angry</label><br />
+        <label><input type="radio" name="mood" value="Disappointed" /> Disappointed</label><br />
+        <label><input type="radio" name="mood" value="Just Venting" /> Just Venting</label>
+      </div>
+
+      <textarea id="ventText" placeholder="Tell me everything you feel like saying..." rows="5" required></textarea>
+
       <button type="submit">Submit 💌</button>
     </form>
-  </div>  <div class="container hidden" id="thankYouContainer">
-    <h2>Grievance Sent 💖</h2>
-    <p>Thank you Siya for sharing. Your message has been sent to Nitesh. He loves you more than anything and will always try to make you smile again. 🥺💗</p>
-    <button onclick="submitAnother()">Submit Another Complaint 💌</button>
-  </div>  <script>
+
+    <div id="responseMessage" class="hidden" style="margin-top: 20px;">
+      <h3>Your feelings are safe with me 💖</h3>
+      <p id="loveMessage"></p>
+
+      <button onclick="alert('A warm hug has been sent to Nitesh ❤️')">Send Him a Hug 🤗</button>
+      <br /><br />
+      <button onclick="resetForm()">Submit Another One</button>
+    </div>
+  </div>
+
+  <script>
+    const PASSWORD = "sn0908";
+
     function checkPassword() {
       const input = document.getElementById("passwordInput").value;
-      const correctPassword = "siya123"; // you can change this
-      if (input === correctPassword) {
-        document.getElementById("loginContainer").style.display = "none";
-        document.getElementById("formContainer").classList.remove("hidden");
+      if (input === PASSWORD) {
+        document.getElementById("passwordScreen").classList.add("hidden");
+        document.getElementById("formScreen").classList.remove("hidden");
       } else {
-        document.getElementById("loginError").style.display = "block";
+        document.getElementById("errorMessage").innerText = "Wrong password, try again sweetheart 💔";
       }
     }
 
-    const form = document.getElementById("grievanceForm");
-    const formContainer = document.getElementById("formContainer");
-    const thankYouContainer = document.getElementById("thankYouContainer");
-
-    form.addEventListener("submit", function (e) {
+    function handleSubmit(e) {
       e.preventDefault();
-      const formData = new FormData(form);
-      fetch(form.action, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json"
-        }
-      })
-        .then(response => {
-          if (response.ok) {
-            formContainer.classList.add("hidden");
-            thankYouContainer.classList.remove("hidden");
-            form.reset();
-          } else {
-            alert("Oops! There was a problem. Try again.");
-          }
-        })
-        .catch(() => alert("Something went wrong."));
-    });
+      const mood = document.querySelector('input[name="mood"]:checked')?.value;
+      const message = document.getElementById("ventText").value;
 
-    function submitAnother() {
-      thankYouContainer.classList.add("hidden");
-      formContainer.classList.remove("hidden");
+      // Save in local storage
+      let entries = JSON.parse(localStorage.getItem("ventEntries")) || [];
+      entries.push({
+        mood: mood,
+        message: message,
+        date: new Date().toLocaleString()
+      });
+      localStorage.setItem("ventEntries", JSON.stringify(entries));
+
+      // Random love message
+      const messages = [
+        "I'm proud of you for expressing this.",
+        "You're my safe place too.",
+        "Let me hold your hand through this.",
+        "You’re strong, but you don’t have to be alone.",
+        "Whatever you feel, I’m listening without judgment."
+      ];
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+      document.getElementById("loveMessage").innerText = randomMsg;
+
+      // Confetti blast 🎉
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      // Switch UI
+      document.getElementById("grievanceForm").classList.add("hidden");
+      document.getElementById("responseMessage").classList.remove("hidden");
     }
-  </script></body>
+
+    function resetForm() {
+      document.getElementById("grievanceForm").reset();
+      document.getElementById("grievanceForm").classList.remove("hidden");
+      document.getElementById("responseMessage").classList.add("hidden");
+    }
+  </script>
+</body>
 </html>
