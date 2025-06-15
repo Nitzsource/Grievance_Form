@@ -1,13 +1,32 @@
+<!-- log.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Message Log 💬</title>
+  <meta charset="UTF-8" />
+  <title>Siya's Log 💬</title>
   <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #fff8fc; padding: 2rem; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-    th { background: #ff80aa; color: white; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff8fc;
+      padding: 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #ff80aa;
+      color: white;
+    }
+    h2 {
+      color: #d63384;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -20,7 +39,7 @@
   </table>
 
   <script>
-    const SHEET_ID = "PASTE-YOUR-SHEET-ID";
+    const SHEET_ID = "https://docs.google.com/spreadsheets/d/1fEasJiY5EVtNEP8MkkOrr-BlhzFl0s3EoJ9hZruE1Is/edit?usp=sharing"; // REPLACE this with your real Sheet ID
     const API_URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
 
     fetch(API_URL)
