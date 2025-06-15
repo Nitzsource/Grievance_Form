@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grievance Portal for My Love</title>
+  <style>
+    body {
+      background-color: #ffe6f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #ffccdd;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      color: #cc3366;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background-color: #ff6699;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e65c87;
+    }
+    .thank-you {
+      display: none;
+      margin-top: 20px;
+      color: #663366;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Grievance Portal 💖</h2>
+    <p>Hey love, what's bothering you? I'm listening 💌</p>
+    <form id="grievanceForm">
+      <input type="text" placeholder="Title of your grievance" required />
+      <textarea placeholder="What's bothering you?" rows="4" required></textarea>
+      <select required>
+        <option value="">Your mood?</option>
+        <option>😢 Sad</option>
+        <option>😡 Angry</option>
+        <option>🥺 Disappointed</option>
+        <option>😊 Just Venting</option>
+      </select>
+      <button type="submit">Submit 💌</button>
+    </form>
+    <div class="thank-you" id="thankYouMessage">
+      Thank you for sharing, love 💖<br />
+      I will think about it and get back to you soon! 😘
+    </div>
+  </div>  <script>
+    const form = document.getElementById("grievanceForm");
+    const thankYou = document.getElementById("thankYouMessage");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      form.style.display = "none";
+      thankYou.style.display = "block";
+    });
+  </script></body>
+</html>
