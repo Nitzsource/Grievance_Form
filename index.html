@@ -1,20 +1,20 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hey Siya 💌</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #ffeaf0, #fff6f9);
+      background: linear-gradient(135deg, #ffe0ec, #ffeef7);
       text-align: center;
       padding: 2rem;
       animation: fadeIn 2s ease-in;
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; } to { opacity: 1; }
     }
     .hidden { display: none; }
     .form-box, .password-box {
@@ -47,13 +47,13 @@
   <div class="password-box" id="passwordBox">
     <h2>🔐 Our Little Secret</h2>
     <p>Hint: letters of our initials plus the day we united 💘</p>
-    <input type="password" id="password" placeholder="Enter the magic word">
+    <input type="password" id="password" placeholder="Enter the magic word" />
     <button onclick="checkPassword()">Unlock</button>
   </div>
 
   <div class="form-box hidden" id="formBox">
     <h2>Hey Siya 🌸</h2>
-    <p>Tell me everything, love. Your words mean the world to me 💗</p>
+    <p>As requested, you can submit your silly little grievances here for my heart's joy 💖</p>
     <form id="ventForm" action="https://formspree.io/f/mnnvvvjq" method="POST">
       <label for="mood">Your Mood:</label>
       <select name="mood" required>
@@ -65,7 +65,7 @@
       </select>
       <label for="message">Message:</label>
       <textarea name="message" rows="4" required placeholder="Pour your heart out... 💌"></textarea>
-      <input type="hidden" name="redirect" value="thankyou.html">
+      <input type="hidden" name="redirect" value="thankyou.html" />
       <button type="submit">Send 💕</button>
     </form>
   </div>
@@ -89,7 +89,7 @@
       const message = this.message.value;
       fetch("https://script.google.com/macros/s/AKfycbwjXUInYC5UXbU_k9uF_Q58TvNK2UHWgwSv6mV926hcg5M9WBsLyKUBgiliBvhTcswAHA/exec", {
         method: "POST",
-        body: JSON.stringify({ mood: mood, message: message }),
+        body: JSON.stringify({ mood, message }),
       });
     });
   </script>
