@@ -1,203 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Siya’s Safe Space 💖</title>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey Siya 💌</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #fff0f5;
-      color: #333;
-      padding: 20px;
-      margin: 0;
-      overflow-x: hidden;
-    }
-
-    .floating-heart {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      background: pink;
-      border-radius: 50%;
-      animation: float 6s ease-in infinite;
-      opacity: 0.6;
-      z-index: 0;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(100vh) scale(0.5); }
-      100% { transform: translateY(-10vh) scale(1); }
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 50px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
-      position: relative;
-      z-index: 2;
+      background: #fff6f9;
       text-align: center;
+      padding: 2rem;
     }
-
-    input[type="password"],
-    textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      background-color: #ff69b4;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #ff85c1;
-    }
-
-    .fade-in {
-      animation: fadeIn 1.5s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .mood-option {
-      margin: 10px 0;
-      text-align: left;
-    }
-
-    .mood-option label {
-      display: block;
-      margin-bottom: 6px;
-    }
+    .hidden { display: none; }
+    .form-box, .password-box { max-width: 400px; margin: auto; background: #ffeef2; padding: 2rem; border-radius: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, select, textarea { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 10px; border: 1px solid #ccc; }
+    button { padding: 0.8rem 1.5rem; background-color: #ff80aa; color: white; border: none; border-radius: 10px; cursor: pointer; }
+    button:hover { background-color: #ff4f8b; }
   </style>
 </head>
-
 <body>
-  <!-- Floating heart animation -->
-  <script>
-    for (let i = 0; i < 30; i++) {
-      const heart = document.createElement("div");
-      heart.classList.add("floating-heart");
-      heart.style.left = `${Math.random() * 100}vw`;
-      heart.style.animationDelay = `${Math.random() * 5}s`;
-      document.body.appendChild(heart);
-    }
-  </script>
-
-  <div id="passwordScreen" class="container">
-    <h2>Siya's Secret Safe Space 🔐</h2>
-    <p>Enter your secret password to continue 💗</p>
-    <input type="password" id="passwordInput" placeholder="Password here..." />
+  <div class="password-box" id="passwordBox">
+    <h2>💖 A little secret corner 💖</h2>
+    <p>Hint: the day we reunited 💑</p>
+    <input type="password" id="password" placeholder="Enter the magic word">
     <button onclick="checkPassword()">Unlock</button>
-    <p id="errorMessage" style="color: red; margin-top: 10px;"></p>
-    <p style="color: #777; margin-top: 5px;">
-      Hint: First letters of us + the day love restarted 💫
-    </p>
   </div>
 
-  <div id="formScreen" class="container hidden">
-    <h2>Hey Siya 🩷</h2>
-    <p class="fade-in">You made it here — just like you made it back to me 💫</p>
-    <p style="margin-top: 20px;">What’s on your heart today, love?</p>
-
-    <form id="grievanceForm" onsubmit="handleSubmit(event)" method="POST" action="https://formspree.io/f/mnnvvvjq">
-      <div class="mood-option">
-        <label><input type="radio" name="mood" value="Sad" required /> Sad</label>
-        <label><input type="radio" name="mood" value="Angry" /> Angry</label>
-        <label><input type="radio" name="mood" value="Disappointed" /> Disappointed</label>
-        <label><input type="radio" name="mood" value="Just Venting" /> Just Venting</label>
-      </div>
-
-      <textarea name="message" id="ventText" placeholder="Write anything you're feeling, baby..." rows="5" required></textarea>
-
-      <button type="submit">Send to Nitesh 💌</button>
+  <div class="form-box hidden" id="formBox">
+    <h2>Hey Siya 🌸</h2>
+    <p>Vent your heart out here — I'm always listening 💌</p>
+    <form id="ventForm" action="https://formspree.io/f/mnnvvvjq" method="POST">
+      <label>Mood:</label>
+      <select name="mood" required>
+        <option value="Happy 😊">Happy 😊</option>
+        <option value="Sad 😔">Sad 😔</option>
+        <option value="Excited 🤩">Excited 🤩</option>
+        <option value="Angry 😡">Angry 😡</option>
+        <option value="In Love 😘">In Love 😘</option>
+      </select>
+      <label>Message:</label>
+      <textarea name="message" rows="4" required placeholder="Tell me everything..."></textarea>
+      <input type="hidden" name="redirect" value="thankyou.html">
+      <button type="submit">Send 💌</button>
     </form>
-
-    <div id="responseMessage" class="hidden fade-in" style="margin-top: 25px;">
-      <h3>Your feelings are safe with me 💖</h3>
-      <p id="loveMessage"></p>
-      <button onclick="alert('A warm hug has been sent to Nitesh ❤️')">Send Him a Hug 🤗</button>
-      <br /><br />
-      <button onclick="resetForm()">Write Another One</button>
-    </div>
   </div>
 
   <script>
-    const PASSWORD = "sn0908";
+    const passwordBox = document.getElementById('passwordBox');
+    const formBox = document.getElementById('formBox');
 
     function checkPassword() {
-      const input = document.getElementById("passwordInput").value;
-      if (input === PASSWORD) {
-        document.getElementById("passwordScreen").classList.add("hidden");
-        document.getElementById("formScreen").classList.remove("hidden");
+      const pw = document.getElementById('password').value;
+      if (pw === 'sn0908') {
+        passwordBox.classList.add('hidden');
+        formBox.classList.remove('hidden');
       } else {
-        document.getElementById("errorMessage").innerText = "Wrong password, try again sweetheart 💔";
+        alert('That’s not our special password 😅');
       }
     }
 
-    function handleSubmit(e) {
-      e.preventDefault();
-
-      const form = document.getElementById("grievanceForm");
-      const formData = new FormData(form);
-
-      fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(response => {
-        if (response.ok) {
-          const messages = [
-            "I’m proud of you for sharing this. Love grows here 💌",
-            "You’re never alone again, baby. I’m with you.",
-            "This space is yours — just like my heart.",
-            "No judgment, only love. Always. 💞"
-          ];
-          const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-          document.getElementById("loveMessage").innerText = randomMsg;
-
-          confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 }
-          });
-
-          form.classList.add("hidden");
-          document.getElementById("responseMessage").classList.remove("hidden");
-        } else {
-          alert("Something went wrong. Please try again.");
-        }
+    // Google Sheet submission
+    document.getElementById("ventForm").addEventListener("submit", function(e) {
+      const mood = this.mood.value;
+      const message = this.message.value;
+      fetch("https://script.google.com/macros/s/AKfycbwjXUInYC5UXbU_k9uF_Q58TvNK2UHWgwSv6mV926hcg5M9WBsLyKUBgiliBvhTcswAHA/exec", {
+        method: "POST",
+        body: JSON.stringify({ mood: mood, message: message }),
       });
-    }
-
-    function resetForm() {
-      document.getElementById("grievanceForm").reset();
-      document.getElementById("grievanceForm").classList.remove("hidden");
-      document.getElementById("responseMessage").classList.add("hidden");
-    }
+    });
   </script>
 </body>
 </html>
