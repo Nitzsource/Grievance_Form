@@ -2,16 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Siya's Safe Space 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Siya’s Safe Space 💖</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #ffe0e9, #fff5f8);
+      background: #fff0f5;
       color: #333;
       padding: 20px;
-      text-align: center;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .floating-heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+      animation: float 6s ease-in infinite;
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.5); }
+      100% { transform: translateY(-10vh) scale(1); }
     }
 
     .hidden {
@@ -20,11 +37,14 @@
 
     .container {
       max-width: 500px;
-      margin: 0 auto;
+      margin: 50px auto;
       background: white;
       padding: 30px;
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+      position: relative;
+      z-index: 2;
+      text-align: center;
     }
 
     input[type="password"],
@@ -52,14 +72,39 @@
       background-color: #ff85c1;
     }
 
+    .fade-in {
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     .mood-option {
-      margin: 5px 0;
+      margin: 10px 0;
       text-align: left;
+    }
+
+    .mood-option label {
+      display: block;
+      margin-bottom: 6px;
     }
   </style>
 </head>
 
 <body>
+  <!-- Floating heart animation -->
+  <script>
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement("div");
+      heart.classList.add("floating-heart");
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(heart);
+    }
+  </script>
+
   <div id="passwordScreen" class="container">
     <h2>Siya's Secret Safe Space 🔐</h2>
     <p>Enter your secret password to continue 💗</p>
@@ -67,34 +112,34 @@
     <button onclick="checkPassword()">Unlock</button>
     <p id="errorMessage" style="color: red; margin-top: 10px;"></p>
     <p style="color: #777; margin-top: 5px;">
-      Hint: First letters of us + the date love restarted 💫
+      Hint: First letters of us + the day love restarted 💫
     </p>
   </div>
 
   <div id="formScreen" class="container hidden">
     <h2>Hey Siya 🩷</h2>
-    <p>I’m listening with all my heart. What’s going on?</p>
+    <p class="fade-in">You made it here — just like you made it back to me 💫</p>
+    <p style="margin-top: 20px;">What’s on your heart today, love?</p>
 
-    <form id="grievanceForm" onsubmit="handleSubmit(event)">
+    <form id="grievanceForm" onsubmit="handleSubmit(event)" method="POST" action="https://formspree.io/f/mnnvvvjq">
       <div class="mood-option">
-        <label><input type="radio" name="mood" value="Sad" required /> Sad</label><br />
-        <label><input type="radio" name="mood" value="Angry" /> Angry</label><br />
-        <label><input type="radio" name="mood" value="Disappointed" /> Disappointed</label><br />
+        <label><input type="radio" name="mood" value="Sad" required /> Sad</label>
+        <label><input type="radio" name="mood" value="Angry" /> Angry</label>
+        <label><input type="radio" name="mood" value="Disappointed" /> Disappointed</label>
         <label><input type="radio" name="mood" value="Just Venting" /> Just Venting</label>
       </div>
 
-      <textarea id="ventText" placeholder="Tell me everything you feel like saying..." rows="5" required></textarea>
+      <textarea name="message" id="ventText" placeholder="Write anything you're feeling, baby..." rows="5" required></textarea>
 
-      <button type="submit">Submit 💌</button>
+      <button type="submit">Send to Nitesh 💌</button>
     </form>
 
-    <div id="responseMessage" class="hidden" style="margin-top: 20px;">
+    <div id="responseMessage" class="hidden fade-in" style="margin-top: 25px;">
       <h3>Your feelings are safe with me 💖</h3>
       <p id="loveMessage"></p>
-
       <button onclick="alert('A warm hug has been sent to Nitesh ❤️')">Send Him a Hug 🤗</button>
       <br /><br />
-      <button onclick="resetForm()">Submit Another One</button>
+      <button onclick="resetForm()">Write Another One</button>
     </div>
   </div>
 
@@ -113,39 +158,39 @@
 
     function handleSubmit(e) {
       e.preventDefault();
-      const mood = document.querySelector('input[name="mood"]:checked')?.value;
-      const message = document.getElementById("ventText").value;
 
-      // Save in local storage
-      let entries = JSON.parse(localStorage.getItem("ventEntries")) || [];
-      entries.push({
-        mood: mood,
-        message: message,
-        date: new Date().toLocaleString()
+      const form = document.getElementById("grievanceForm");
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          const messages = [
+            "I’m proud of you for sharing this. Love grows here 💌",
+            "You’re never alone again, baby. I’m with you.",
+            "This space is yours — just like my heart.",
+            "No judgment, only love. Always. 💞"
+          ];
+          const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+          document.getElementById("loveMessage").innerText = randomMsg;
+
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+
+          form.classList.add("hidden");
+          document.getElementById("responseMessage").classList.remove("hidden");
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
       });
-      localStorage.setItem("ventEntries", JSON.stringify(entries));
-
-      // Random love message
-      const messages = [
-        "I'm proud of you for expressing this.",
-        "You're my safe place too.",
-        "Let me hold your hand through this.",
-        "You’re strong, but you don’t have to be alone.",
-        "Whatever you feel, I’m listening without judgment."
-      ];
-      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-      document.getElementById("loveMessage").innerText = randomMsg;
-
-      // Confetti blast 🎉
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-
-      // Switch UI
-      document.getElementById("grievanceForm").classList.add("hidden");
-      document.getElementById("responseMessage").classList.remove("hidden");
     }
 
     function resetForm() {
